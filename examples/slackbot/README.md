@@ -46,7 +46,6 @@ Take note of both URLs. The Anthropic webhook URL is used in Claude Platform; th
 
 ### Claude
 
-* Make sure your [Claude Platform](https://platform.claude.com) organization is whitelisted to use Claude Managed Agents with Self-hosted Containers.
 * Create and/or activate a non-default workspace in [Claude Platform](https://platform.claude.com). All the Claude resources should be created inside this workspace.
 * Use resources dedicated to this Slackbot example.
 * Avoid reusing the resources from `examples/basic`; both

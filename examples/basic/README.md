@@ -46,7 +46,6 @@ Your webhook isn't fully functional yet. We'll do a redeploy later in the setup 
 
 ### Claude
 
-* Make sure your [Claude Platform](https://platform.claude.com) organization is whitelisted to use Claude Managed Agents with Self-hosted Containers.
 * Create and/or activate a non-default workspace in [Claude Platform](https://platform.claude.com). All the Claude resources should be created inside this workspace.
 
 * Note your **Workspace ID**:
