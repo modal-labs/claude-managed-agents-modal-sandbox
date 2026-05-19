@@ -16,10 +16,10 @@ load_env()
 
 
 ANTHROPIC_SECRET_ENV_KEYS = (
-    "ANTHROPIC_AGENT_ID",
     "ANTHROPIC_ENVIRONMENT_ID",
     "ANTHROPIC_ENVIRONMENT_KEY",
     "ANTHROPIC_WEBHOOK_SECRET",
+    "SANDBOX_IMAGE_ID",
 )
 
 MODAL_APP_NAME = "claude-managed-agents-basic"
@@ -34,9 +34,6 @@ APP_SANDBOX_REPO_IMAGE_PATH = "/opt/modal-examples"
 APP_SANDBOX_REPO_WORKDIR_NAME = "modal-examples"
 
 APP_CONFIG_PATH = "/root/config.py"
-APP_SANDBOX_TOOL_RUNNER_PATH = "/root/sandbox_tool_runner.py"
-APP_PYPROJECT_TOML_PATH = "/root/pyproject.toml"
-APP_UV_LOCK_PATH = "/root/uv.lock"
 
 
 def anthropic_secret_env() -> dict[str, str]:

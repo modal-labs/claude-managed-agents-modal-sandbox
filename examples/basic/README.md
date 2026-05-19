@@ -29,11 +29,13 @@ uv run modal environment create claude-managed-agents
 uv run modal config set-environment claude-managed-agents
 ```
 
-* Deploy the webhook
+* Build the sandbox image and deploy the webhook
 
 ```bash
-uv run modal deploy src/claude_webhook_handler.py
+make deploy
 ```
+
+This runs `uv run modal run src/sandbox_image.py` (which builds the sandbox image and writes `SANDBOX_IMAGE_ID` into `.env`) and then `uv run modal deploy src/claude_webhook_handler.py`.
 
 You should see something like this in your logs.
 
@@ -51,7 +53,7 @@ Your webhook isn't fully functional yet. We'll do a redeploy later in the setup 
 * Note your **Workspace ID**:
    * Open [Workspaces](https://platform.claude.com/settings/workspaces) and copy the ID for your workspace.
    * Or open any page inside your workspace in [Claude Platform](https://platform.claude.com), inspect the browser address bar, copy the segment after `/workspaces/` (looks like `wrkspc_...`)
-   * Set `ANTHROPIC_WORKSPACE_ID` in `.env`. The CLI uses this to make
+   * Set `ANTHROPIC_WORKSPACE_ID` in `.env.local`. The CLI uses this to make
      the Claude Agent, Environment, and Session IDs clickable; if you omit it,
      everything still works but the links won't appear.
 
@@ -62,7 +64,7 @@ Your webhook isn't fully functional yet. We'll do a redeploy later in the setup 
 * Create an **Agent**
    * Choose blank agent template as the starting point
    * Set name as 'Modal Basic Example' in the YAML
-   * Copy the ID (under the title) and set `ANTHROPIC_AGENT_ID` in `.env`
+   * Copy the ID (under the title) and set `ANTHROPIC_AGENT_ID` in `.env.local`
 
 * Create an **Environment**:
    * Call it 'Modal Basic Example'
@@ -84,7 +86,7 @@ Your webhook isn't fully functional yet. We'll do a redeploy later in the setup 
 * With all the .env variables updated, let's redeploy so our Modal app picks them up.
 
 ```bash
-uv run modal deploy src/claude_webhook_handler.py
+make deploy
 ```
 
 ## Usage
