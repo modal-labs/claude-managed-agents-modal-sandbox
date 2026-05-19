@@ -7,16 +7,16 @@ from dataclasses import dataclass
 
 from rich.console import Console
 
-from cli_app.agent_runtime import AgentRuntime
-from cli_app.live_ui import run_live
-from cli_app.sandbox_runtime import SandboxRuntime
-from cli_app.sandbox_runtime import wait_for_next_poll
-from cli_app.state import AppState
-from cli_app.state import ClaudeState
-from cli_app.state import EventBlock
-from cli_app.state import ModalState
-from cli_app.state import append_event
-from cli_app.state import append_events
+from app.agent_runtime import AgentRuntime
+from app.live_ui import run_live
+from app.sandbox_runtime import SandboxRuntime
+from app.sandbox_runtime import wait_for_next_poll
+from app.state import AppState
+from app.state import ClaudeState
+from app.state import EventBlock
+from app.state import ModalState
+from app.state import append_event
+from app.state import append_events
 from config import load_env
 
 
@@ -30,7 +30,7 @@ class PendingUserMessage:
 
 
 def _resume_command(session_id: str) -> str:
-    return f"uv run src/cli.py --resume {session_id}"
+    return f"uv run maude --resume {session_id}"
 
 
 def _print_resume_hint(session_id: str) -> None:

@@ -22,7 +22,7 @@ ANTHROPIC_SECRET_ENV_KEYS = (
     "SANDBOX_IMAGE_ID",
 )
 
-MODAL_APP_NAME = "claude-managed-agents-basic"
+MODAL_APP_NAME = "claude-managed-agents-cli"
 MODAL_SESSIONS_VOLUME_NAME = MODAL_APP_NAME
 
 APP_LOG_LEVEL = "INFO"

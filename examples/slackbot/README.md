@@ -50,7 +50,7 @@ Take note of both URLs. The Anthropic webhook URL is used in Claude Platform; th
 
 * Create and/or activate a non-default workspace in [Claude Platform](https://platform.claude.com). All the Claude resources should be created inside this workspace.
 * Use resources dedicated to this Slackbot example.
-* Avoid reusing the resources from `examples/basic`; both
+* Avoid reusing the resources from `examples/cli`; both
   examples can deploy to separate Modal apps, but shared Claude resources can
   route the same work to both webhooks.
 

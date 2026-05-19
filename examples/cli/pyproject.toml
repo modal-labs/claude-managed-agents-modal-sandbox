@@ -1,0 +1,25 @@
+[project]
+name = "claude-managed-agents-cli"
+version = "0.1.0"
+description = "Maude CLI: a Claude Managed Agents example using Modal Sandboxes"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "anthropic>=0.103.0",
+    "dotenv>=0.9.9",
+    "fastapi>=0.136.1",
+    "modal>=1.4.3",
+    "rich>=15.0.0",
+    "standardwebhooks>=1.0.1,<2",
+]
+
+[project.scripts]
+maude = "cli:cli"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+sources = ["src"]
+only-include = ["src/app", "src/cli.py", "src/config.py"]

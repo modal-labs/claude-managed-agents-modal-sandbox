@@ -13,7 +13,7 @@ A remote coding agent that uses [Modal Sandboxes](https://modal.com/docs/guide/s
 * Copy the dotenv files
 
 ```bash
-cd examples/basic
+cd examples/cli
 cp .env.example .env
 cp .env.local.example .env.local
 ```
@@ -58,28 +58,28 @@ Your webhook isn't fully functional yet. We'll do a redeploy later in the setup 
      everything still works but the links won't appear.
 
 * Generate an **API key**
-   * Call it 'Modal Basic Example'
+   * Call it 'Maude CLI'
    * Copy the key and set `ANTHROPIC_API_KEY` in `.env.local`
 
 * Create an **Agent**
    * Choose blank agent template as the starting point
-   * Set name as 'Modal Basic Example' in the YAML
+   * Set name as 'Maude CLI' in the YAML
    * Copy the ID (under the title) and set `ANTHROPIC_AGENT_ID` in `.env.local`
 
 * Create an **Environment**:
-   * Call it 'Modal Basic Example'
+   * Call it 'Maude CLI'
    * Choose 'Self-hosted' as hosting type
    * Copy the ID (under the title) and set `ANTHROPIC_ENVIRONMENT_ID` in `.env`
 
 * Create an **Environment Key**:
    * Open the environment detail page
    * Click 'Generate Secret Key'
-   * Call it 'Modal Basic Example'
+   * Call it 'Maude CLI'
    * Copy the key and set `ANTHROPIC_ENVIRONMENT_KEY` in `.env`
 
 * Create a **Webhook**:
    * Use the URL contained within the `modal deploy` logs above
-   * Set name as 'Modal Basic Example'
+   * Set name as 'Maude CLI'
    * Subscribe only to `Session lifecycle -> Run started`.
    * Copy the secret and set `ANTHROPIC_WEBHOOK_SECRET` in `.env`, then deploy again.
 
@@ -92,10 +92,14 @@ make deploy
 ## Usage
 
 ```bash
-uv run src/cli.py
+uv run maude
 ```
 
 Just enter your prompt in the input box and then watch the stream of Claude and Modal Sandbox events.
+
+> `uv sync` registers a `maude` console script (via `[project.scripts]` in
+> `pyproject.toml`). If you activate the venv (`source .venv/bin/activate`)
+> you can just run `maude` directly.
 
 ### Connect Tokens
 
@@ -110,5 +114,5 @@ Use the `--no-preview` flag to disable preview links.
 
 ### Resume
 
-When you exit Maude CLI you should see a resume command printed (e.g. `Resume later: uv run src/cli.py --resume <session_id>`).
+When you exit Maude CLI you should see a resume command printed (e.g. `Resume later: uv run maude --resume <session_id>`).
 When you run this command, it will pre-populate the events saved in the Claude Managed Agent session.

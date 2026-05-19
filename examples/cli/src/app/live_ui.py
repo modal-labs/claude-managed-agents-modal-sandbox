@@ -17,10 +17,10 @@ from rich.panel import Panel
 from rich.pretty import pretty_repr
 from rich.text import Text
 
-from cli_app.state import AppState
-from cli_app.state import ClaudeState
-from cli_app.state import EventBlock
-from cli_app.state import ModalState
+from app.state import AppState
+from app.state import ClaudeState
+from app.state import EventBlock
+from app.state import ModalState
 
 
 UI_WIDTH = 100

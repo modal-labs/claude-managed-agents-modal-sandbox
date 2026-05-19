@@ -17,7 +17,7 @@
 
 We have two self-contained and customizable examples for you to try:
 
-* [Maude CLI](examples/basic)
+* [Maude CLI](examples/cli)
     * A demonstration command line interface to talk with your remote and fully managed agent
 * [Maude Slackbot](examples/slackbot)
     * A Slack app that maps Slack threads to Claude Managed Agent sessions

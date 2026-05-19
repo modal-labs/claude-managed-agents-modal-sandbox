@@ -6,7 +6,7 @@ from typing import Any
 
 import anthropic
 
-from cli_app.state import EventBlock
+from app.state import EventBlock
 
 
 TOOL_EVENT_TYPES = {
