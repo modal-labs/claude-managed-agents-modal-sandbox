@@ -239,8 +239,10 @@ def main(
                 )
                 state.input_enabled = True
 
+    stream_thread: threading.Thread | None = None
+    monitor_thread: threading.Thread | None = None
     try:
-        _start_event_stream_thread(
+        stream_thread = _start_event_stream_thread(
             runtime=agent_runtime,
             session_id=replay.session_id,
             seen_event_ids=replay.seen_event_ids,
@@ -249,7 +251,7 @@ def main(
             stop_event=stop_event,
             pending_user_messages=pending_user_messages,
         )
-        _start_sandbox_monitor_thread(
+        monitor_thread = _start_sandbox_monitor_thread(
             runtime=sandbox_runtime,
             session_id=replay.session_id,
             state=state,
@@ -259,9 +261,13 @@ def main(
         )
         run_live(state, lock, stop_event, submit_user_message)
     except KeyboardInterrupt:
-        stop_event.set()
+        pass
     finally:
         stop_event.set()
+        if monitor_thread is not None:
+            monitor_thread.join(timeout=5.0)
+        if stream_thread is not None:
+            stream_thread.join(timeout=2.0)
         _print_resume_hint(replay.session_id)
 
 
