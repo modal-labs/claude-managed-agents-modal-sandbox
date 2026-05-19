@@ -29,11 +29,13 @@ uv run modal environment create claude-managed-agents
 uv run modal config set-environment claude-managed-agents
 ```
 
-* Deploy the Anthropic and Slack webhooks
+* Build the sandbox image and deploy the Anthropic and Slack webhooks
 
 ```bash
-uv run modal deploy src/main.py
+make deploy
 ```
+
+This runs `uv run modal run src/sandbox_image.py` (which builds the sandbox image and writes `SANDBOX_IMAGE_ID` into `.env`) and then `uv run modal deploy src/main.py`.
 
 You should see web function URLs for the Anthropic session webhook and the Slack events endpoint.
 
@@ -109,7 +111,7 @@ Take note of both URLs. The Anthropic webhook URL is used in Claude Platform; th
 * After updating the `.env` variables, redeploy so Modal can pick them up.
 
 ```bash
-uv run modal deploy src/main.py
+make deploy
 ```
 
 * In 'Event Subscriptions', use the Modal `slack_events` URL and subscribe to:

@@ -1,5 +1,5 @@
 """
-Will create and run inside Modal fastapi_endpoint.
+Will run inside Modal fastapi_endpoint and manage Modal Sandbox lifecycle.
 """
 
 import base64
@@ -19,15 +19,8 @@ from config import (
     APP_CONFIG_PATH,
     APP_LOG_LEVEL,
     APP_MODAL_APP_PATH,
-    APP_PYPROJECT_TOML_PATH,
-    APP_SANDBOX_IDLE_TIMEOUT_SECONDS,
-    APP_SANDBOX_REPO_IMAGE_PATH,
-    APP_SANDBOX_REPO_URL,
-    APP_SANDBOX_REPO_WORKDIR_NAME,
     APP_SANDBOX_TIMEOUT_SECONDS,
-    APP_SANDBOX_TOOL_RUNNER_PATH,
     APP_SANDBOX_WORKDIR,
-    APP_UV_LOCK_PATH,
     MODAL_APP_NAME,
     MODAL_SESSIONS_VOLUME_NAME,
     anthropic_secret_env,
@@ -54,46 +47,12 @@ secrets = modal.Secret.from_dict(anthropic_secret_env())
 
 _config_src = Path(__file__).parent / "config.py"
 _modal_app_src = Path(__file__).parent / "modal_app.py"
-_sandbox_tool_runner_src = Path(__file__).parent / "sandbox_tool_runner.py"
-_example_root = Path(__file__).parents[1]
-_pyproject_toml_src = _example_root / "pyproject.toml"
-_uv_lock_src = _example_root / "uv.lock"
 
 webhook_image = (
     modal.Image.debian_slim(python_version="3.13")
     .uv_sync()
-    # adding the config
     .add_local_file(_config_src, APP_CONFIG_PATH, copy=True)
     .add_local_file(_modal_app_src, APP_MODAL_APP_PATH, copy=True)
-    # adding files that we need to build sandbox_image
-    .add_local_file(
-        _sandbox_tool_runner_src, APP_SANDBOX_TOOL_RUNNER_PATH, copy=True
-    )
-    .add_local_file(_pyproject_toml_src, APP_PYPROJECT_TOML_PATH, copy=True)
-    .add_local_file(_uv_lock_src, APP_UV_LOCK_PATH, copy=True)
-)
-
-sandbox_image = (
-    modal.Image.debian_slim(python_version="3.13")
-    .apt_install("ca-certificates", "curl", "git")
-    .run_commands(
-        "mkdir -p -m 755 /etc/apt/keyrings",
-        "curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg "
-        "-o /etc/apt/keyrings/githubcli-archive-keyring.gpg",
-        "chmod go+r /etc/apt/keyrings/githubcli-archive-keyring.gpg",
-        'echo "deb [arch=$(dpkg --print-architecture) '
-        "signed-by=/etc/apt/keyrings/githubcli-archive-keyring.gpg] "
-        'https://cli.github.com/packages stable main" '
-        "> /etc/apt/sources.list.d/github-cli.list",
-        "apt-get update && apt-get install -y gh && rm -rf /var/lib/apt/lists/*",
-        f"git clone --depth 1 {APP_SANDBOX_REPO_URL} {APP_SANDBOX_REPO_IMAGE_PATH}",
-        "git --version",
-        "gh --version",
-    )
-    .uv_sync()
-    .add_local_file(
-        _sandbox_tool_runner_src, APP_SANDBOX_TOOL_RUNNER_PATH, copy=True
-    )
 )
 
 
@@ -144,11 +103,9 @@ async def _create_sandbox(
         sub_path=f"/sessions/{session_id}"
     )
     sb = await modal.Sandbox.create.aio(
-        "python",
-        APP_SANDBOX_TOOL_RUNNER_PATH,
         app=sb_app,
         name=session_id,
-        image=sandbox_image,
+        image=modal.Image.from_id(os.environ["SANDBOX_IMAGE_ID"]),
         timeout=sandbox_timeout,
         volumes={APP_SANDBOX_WORKDIR: session_vol},
         env={
@@ -156,16 +113,8 @@ async def _create_sandbox(
             "ANTHROPIC_ENVIRONMENT_ID": environment_id,
             "ANTHROPIC_WORK_ID": work_id,
             "ANTHROPIC_ENVIRONMENT_KEY": environment_key,
-            "APP_LOG_LEVEL": APP_LOG_LEVEL,
-            "APP_SANDBOX_REPO_IMAGE_PATH": APP_SANDBOX_REPO_IMAGE_PATH,
-            "APP_SANDBOX_REPO_WORKDIR_NAME": APP_SANDBOX_REPO_WORKDIR_NAME,
-            "APP_SANDBOX_IDLE_TIMEOUT_SECONDS": str(
-                APP_SANDBOX_IDLE_TIMEOUT_SECONDS
-            ),
-            "APP_SANDBOX_WORKDIR": APP_SANDBOX_WORKDIR,
         },
     )
-    await sb.set_tags.aio({"session_id": session_id})
     return sb
 
 

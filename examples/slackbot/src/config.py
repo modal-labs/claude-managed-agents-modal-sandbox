@@ -20,6 +20,7 @@ ANTHROPIC_SECRET_ENV_KEYS = (
     "ANTHROPIC_ENVIRONMENT_ID",
     "ANTHROPIC_ENVIRONMENT_KEY",
     "ANTHROPIC_WEBHOOK_SECRET",
+    "SANDBOX_IMAGE_ID",
 )
 
 SLACK_SECRET_ENV_KEYS = (
@@ -44,9 +45,6 @@ APP_SANDBOX_REPO_WORKDIR_NAME = "modal-examples"
 
 APP_CONFIG_PATH = "/root/config.py"
 APP_MODAL_APP_PATH = "/root/modal_app.py"
-APP_SANDBOX_TOOL_RUNNER_PATH = "/root/sandbox_tool_runner.py"
-APP_PYPROJECT_TOML_PATH = "/root/pyproject.toml"
-APP_UV_LOCK_PATH = "/root/uv.lock"
 APP_AGENT_BRIDGE_PATH = "/root/agent_bridge.py"
 APP_SESSION_STORE_PATH = "/root/session_store.py"
 

@@ -29,9 +29,7 @@ from config import (
     APP_AGENT_BRIDGE_PATH,
     APP_CONFIG_PATH,
     APP_MODAL_APP_PATH,
-    APP_PYPROJECT_TOML_PATH,
     APP_SESSION_STORE_PATH,
-    APP_UV_LOCK_PATH,
     slack_secret_env,
 )
 from modal_app import app
@@ -48,13 +46,10 @@ from session_store import (
 secrets = modal.Secret.from_dict(slack_secret_env())
 web_app = FastAPI()
 
-_example_root = Path(__file__).parents[1]
 _config_src = Path(__file__).parent / "config.py"
 _modal_app_src = Path(__file__).parent / "modal_app.py"
 _agent_bridge_src = Path(__file__).parent / "agent_bridge.py"
 _session_store_src = Path(__file__).parent / "session_store.py"
-_pyproject_toml_src = _example_root / "pyproject.toml"
-_uv_lock_src = _example_root / "uv.lock"
 
 webhook_image = (
     modal.Image.debian_slim(python_version="3.13")
@@ -63,8 +58,6 @@ webhook_image = (
     .add_local_file(_modal_app_src, APP_MODAL_APP_PATH, copy=True)
     .add_local_file(_agent_bridge_src, APP_AGENT_BRIDGE_PATH, copy=True)
     .add_local_file(_session_store_src, APP_SESSION_STORE_PATH, copy=True)
-    .add_local_file(_pyproject_toml_src, APP_PYPROJECT_TOML_PATH, copy=True)
-    .add_local_file(_uv_lock_src, APP_UV_LOCK_PATH, copy=True)
 )
 
 
