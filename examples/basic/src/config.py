@@ -23,7 +23,7 @@ ANTHROPIC_SECRET_ENV_KEYS = (
 )
 
 MODAL_APP_NAME = "claude-managed-agents-basic"
-MODAL_SESSION_VOLUME_PREFIX = "cma-basic-session"  # short to avoid the 64 characters limit
+MODAL_SESSIONS_VOLUME_NAME = MODAL_APP_NAME
 
 APP_LOG_LEVEL = "INFO"
 APP_SANDBOX_WORKDIR = "/workspace"

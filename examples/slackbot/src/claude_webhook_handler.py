@@ -29,7 +29,7 @@ from config import (
     APP_SANDBOX_WORKDIR,
     APP_UV_LOCK_PATH,
     MODAL_APP_NAME,
-    MODAL_SESSION_VOLUME_PREFIX,
+    MODAL_SESSIONS_VOLUME_NAME,
     anthropic_secret_env,
 )
 from modal_app import app
@@ -139,7 +139,9 @@ async def _create_sandbox(
 ) -> modal.Sandbox:
     sb_app = await modal.App.lookup.aio(MODAL_APP_NAME, create_if_missing=True)
     session_vol = modal.Volume.from_name(
-        f"{MODAL_SESSION_VOLUME_PREFIX}-{session_id}", create_if_missing=True
+        MODAL_SESSIONS_VOLUME_NAME, create_if_missing=True, version=2
+    ).with_mount_options(
+        sub_path=f"/sessions/{session_id}"
     )
     sb = await modal.Sandbox.create.aio(
         "python",

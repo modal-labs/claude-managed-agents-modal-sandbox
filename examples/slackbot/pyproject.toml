@@ -8,7 +8,7 @@ dependencies = [
     "anthropic>=0.103.0",
     "dotenv>=0.9.9",
     "fastapi>=0.136.1",
-    "modal>=1.4.2",
+    "modal>=1.4.3",
     "rich>=15.0.0",
     "standardwebhooks>=1.0.1,<2",
 ]

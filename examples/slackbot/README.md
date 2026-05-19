@@ -53,8 +53,8 @@ Take note of both URLs. The Anthropic webhook URL is used in Claude Platform; th
   route the same work to both webhooks.
 
 * Note your **Workspace ID**:
-   * Open any page inside your workspace in [Claude Platform](https://platform.claude.com)
-   * In the browser address bar, copy the segment after `/workspaces/` (looks like `wrkspc_…`)
+   * Open [Workspaces](https://platform.claude.com/settings/workspaces) and copy the ID for your workspace.
+   * Or open any page inside your workspace in [Claude Platform](https://platform.claude.com), inspect the browser address bar, copy the segment after `/workspaces/` (looks like `wrkspc_...`)
    * Set `ANTHROPIC_WORKSPACE_ID` in `.env`. The Slackbot uses this to post a clickable session link into the Slack thread; if you omit it, everything still works but the link won't appear.
 
 * Generate an **API key**
@@ -64,7 +64,7 @@ Take note of both URLs. The Anthropic webhook URL is used in Claude Platform; th
 * Create an **Agent**
    * Choose blank agent template as the starting point
    * Set name as 'Modal Slackbot Example' in the YAML
-   * Copy the id (under the title) and set `ANTHROPIC_AGENT_ID` in `.env`
+   * Copy the ID (under the title) and set `ANTHROPIC_AGENT_ID` in `.env`
 
    > Or run `uv run scripts/setup_agent.py` instead — it creates the agent
    > (writing `ANTHROPIC_AGENT_ID` to `.env`), uploads every skill under
@@ -76,10 +76,10 @@ Take note of both URLs. The Anthropic webhook URL is used in Claude Platform; th
 * Create an **Environment**:
    * Call it 'Modal Slackbot Example'
    * Choose 'Self-hosted' as hosting type
-   * Copy the id (under the title) and set `ANTHROPIC_ENVIRONMENT_ID` in `.env`
+   * Copy the ID (under the title) and set `ANTHROPIC_ENVIRONMENT_ID` in `.env`
 
 * Create an **Environment Key**:
-   * Open 'Installation Instructions' on the environment above
+   * Open the environment detail page
    * Click 'Generate Secret Key'
    * Call it 'Modal Slackbot Example'
    * Copy the key and set `ANTHROPIC_ENVIRONMENT_KEY` in `.env`

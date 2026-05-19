@@ -64,7 +64,7 @@ A `Volume` is used to store data from the sessions, allowing us to easily resume
 
 ```python
 volume = (
-    modal.Volume.from_name("claude-managed-agents", create_if_missing=True)
+    modal.Volume.from_name("claude-managed-agents", create_if_missing=True, version=2)
     .with_mount_options(sub_path=f"/sessions/{session_id}")
 )
 ```

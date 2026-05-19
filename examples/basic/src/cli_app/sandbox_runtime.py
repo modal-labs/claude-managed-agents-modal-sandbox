@@ -9,7 +9,7 @@ import modal
 from modal.config import _lookup_workspace
 from modal.config import config as modal_config
 
-from config import MODAL_APP_NAME, MODAL_SESSION_VOLUME_PREFIX
+from config import MODAL_APP_NAME, MODAL_SESSIONS_VOLUME_NAME
 
 
 SANDBOX_MONITOR_POLL_INTERVAL_SECONDS = 2.0
@@ -92,7 +92,7 @@ class SandboxRuntime:
         query = urlencode({"activeTab": "sandboxes", "sandboxId": sandbox_id})
         return f"{path}?{query}"
 
-    def volume_url(self, volume_name: str) -> str | None:
+    def volume_url(self, volume_name: str, *path_parts: str) -> str | None:
         workspace_slug = self.dashboard_workspace_slug()
         environment_name = modal_config.get("environment")
         if not workspace_slug or not environment_name:
@@ -106,6 +106,7 @@ class SandboxRuntime:
                 quote(environment_name, safe=""),
                 "volumes",
                 quote(volume_name, safe=""),
+                *(quote(part, safe="") for part in path_parts),
             )
         )
 
@@ -126,13 +127,14 @@ class SandboxRuntime:
             except Exception:
                 connection_url = None
 
-        volume_name = f"{MODAL_SESSION_VOLUME_PREFIX}-{session_id}"
         return SandboxSnapshot(
             sandbox_id=sb.object_id,
             connection_url=connection_url,
-            volume_path=f"{volume_name}/{session_id}",
+            volume_path=f"{MODAL_SESSIONS_VOLUME_NAME}/sessions/{session_id}",
             sandbox_url=self.sandbox_url(sb.object_id),
-            volume_url=self.volume_url(volume_name),
+            volume_url=self.volume_url(
+                MODAL_SESSIONS_VOLUME_NAME, "sessions", session_id
+            ),
         )
 
 

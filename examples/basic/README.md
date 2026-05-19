@@ -49,8 +49,8 @@ Your webhook isn't fully functional yet. We'll do a redeploy later in the setup 
 * Create and/or activate a non-default workspace in [Claude Platform](https://platform.claude.com). All the Claude resources should be created inside this workspace.
 
 * Note your **Workspace ID**:
-   * Open any page inside your workspace in [Claude Platform](https://platform.claude.com)
-   * In the browser address bar, copy the segment after `/workspaces/` (looks like `wrkspc_...`)
+   * Open [Workspaces](https://platform.claude.com/settings/workspaces) and copy the ID for your workspace.
+   * Or open any page inside your workspace in [Claude Platform](https://platform.claude.com), inspect the browser address bar, copy the segment after `/workspaces/` (looks like `wrkspc_...`)
    * Set `ANTHROPIC_WORKSPACE_ID` in `.env`. The CLI uses this to make
      the Claude Agent, Environment, and Session IDs clickable; if you omit it,
      everything still works but the links won't appear.
@@ -62,15 +62,15 @@ Your webhook isn't fully functional yet. We'll do a redeploy later in the setup 
 * Create an **Agent**
    * Choose blank agent template as the starting point
    * Set name as 'Modal Basic Example' in the YAML
-   * Copy the id (under the title) and set `ANTHROPIC_AGENT_ID` in `.env`
+   * Copy the ID (under the title) and set `ANTHROPIC_AGENT_ID` in `.env`
 
 * Create an **Environment**:
    * Call it 'Modal Basic Example'
    * Choose 'Self-hosted' as hosting type
-   * Copy the id (under the title) and set `ANTHROPIC_ENVIRONMENT_ID` in `.env`
+   * Copy the ID (under the title) and set `ANTHROPIC_ENVIRONMENT_ID` in `.env`
 
 * Create an **Environment Key**:
-   * Open 'Installation Instructions' on the environment above
+   * Open the environment detail page
    * Click 'Generate Secret Key'
    * Call it 'Modal Basic Example'
    * Copy the key and set `ANTHROPIC_ENVIRONMENT_KEY` in `.env`
@@ -93,21 +93,20 @@ uv run modal deploy src/claude_webhook_handler.py
 uv run src/cli.py
 ```
 
-The CLI prints `sandbox.started` and `sandbox.stopped` panels when the Modal
-Sandbox for the session appears or exits. By default, the CLI creates a
-Sandbox Connect Token preview link for port 8080 when it sees a running
-sandbox. To disable preview links, run:
+Just enter your prompt in the input box and then watch the stream of Claude and Modal Sandbox events.
 
-```bash
-uv run src/cli.py --no-preview
-```
+### Connect Tokens
 
-To demo Sandbox Connect Tokens, ask the agent to start a server on port 8080:
+Maude CLI creates a Sandbox Connect Token preview link for port 8080 by default when it sees a running
+sandbox. Ask the agent to start a server on port 8080, and then click on the `:8080` link in the Modal resources panel on the top left.
 
 ```text
 Start a Python HTTP server on port 8080 that serves a small HTML page with the current working directory and a timestamp.
 ```
 
-The CLI also prints a `sandbox.preview` panel with a fresh connect-token URL
-whenever it sees a new running sandbox, without
-requiring an extra Claude message.
+Use the `--no-preview` flag to disable preview links.
+
+### Resume
+
+When you exit Maude CLI you should see a resume command printed (e.g. `Resume later: uv run src/cli.py --resume <session_id>`).
+When you run this command, it will pre-populate the events saved in the Claude Managed Agent session.
