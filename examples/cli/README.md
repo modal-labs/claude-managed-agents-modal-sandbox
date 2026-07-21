@@ -48,7 +48,7 @@ Your webhook isn't fully functional yet. We'll do a redeploy later in the setup 
 
 ### Claude
 
-* Create and/or activate a non-default workspace in [Claude Platform](https://platform.claude.com). All the Claude resources should be created inside this workspace.
+* Choose a workspace on [Claude Platform](https://platform.claude.com). All the Claude resources will be created inside this workspace.
 
 * Note your **Workspace ID**:
    * Open [Workspaces](https://platform.claude.com/settings/workspaces) and copy the ID for your workspace.
